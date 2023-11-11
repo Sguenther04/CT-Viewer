@@ -1,13 +1,12 @@
 package loggerAufgabe;
+
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
 
 /**
  * a class fpr testing the function of the loggers and their factories
@@ -18,15 +17,12 @@ public class TestLogger {
   private String report;
   private String time;
   private LoggerCalls log;
-  private ConsoleLoggerFactory consoleFactory;
-  private FileLoggerFactory fileFactory;
+
   private String expectedLog;
 
   @BeforeTest
   public void setup() {
     logger = new ConsoleLogger();
-    fileFactory = new FileLoggerFactory();
-    consoleFactory = new ConsoleLoggerFactory();
     time = logger.getDateTime();
     log = LoggerCalls.ERROR;
     report = "Test";
@@ -36,27 +32,25 @@ public class TestLogger {
   @Test
   public void testConsoleLog() throws IOException {
     logger.loggerCall(report, log);
-    expectedLog = time + " ERROR: loggerAufgabe.TestLoggertestConsoleLog: Test";
+    expectedLog = time + " ERROR: loggerAufgabe.TestLogger.testConsoleLog: Test";
 
     Assert.assertEquals(expectedLog,logger.getFinalLog());
   }
 
   @Test
-  public void testFileLoggerFactory() {
-    logger = fileFactory.getLogger();
+  public void testLoggerCreation(){
+    logger = LoggerFactory.createLogger("console");
+    Assert.assertTrue(logger.isConsoleLogger());
+    logger = LoggerFactory.createLogger("file");
     Assert.assertTrue(logger.isFileLogger());
   }
 
-  @Test
-  public void testConsoleLoggerFactory() {
-    logger = consoleFactory.getLogger();
-    Assert.assertTrue(logger.isConsoleLogger());
-  }
+
   @Test
   public void testFileLog() throws IOException {
     logger = new FileLogger();
     logger.loggerCall(report, log);
-    expectedLog = time + " ERROR: loggerAufgabe.TestLoggertestFileLog: Test";
+    expectedLog = time + " ERROR: loggerAufgabe.TestLogger.testFileLog: Test";
 
     StringBuilder content = new StringBuilder();
     try (BufferedReader reader = new BufferedReader(new FileReader("testorder.bin"))) {

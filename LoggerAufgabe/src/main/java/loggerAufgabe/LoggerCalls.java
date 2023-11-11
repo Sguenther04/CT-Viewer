@@ -4,12 +4,7 @@ package loggerAufgabe;
  * enum for different types of logger calls
  */
 public enum LoggerCalls {
-  WARNING("warning"),ERROR("error"),INFO("info");
-  private String name;
-  LoggerCalls(String name) {
-    this.name = name;
+  WARNING,ERROR,INFO
+
   }
-  public String getName() {
-    return name;
-  }
-}
+

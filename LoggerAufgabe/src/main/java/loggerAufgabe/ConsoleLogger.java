@@ -13,6 +13,11 @@ public class ConsoleLogger implements Logger {
 
   private String finalLog;
 
+  /**
+   * Prints out a logger call on the console
+   * @param report   is the message which the logger prints out
+   * @param callType type of the log
+   */
   public void loggerCall(String report, LoggerCalls callType) {
 
     String callLocation = getCallLocation();
@@ -34,28 +39,47 @@ public class ConsoleLogger implements Logger {
 
   }
 
+  /**
+   * returns current date and time for the log
+   * @return String with current date and time
+   */
   public String getDateTime() {
     formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     currentDateTime = LocalDateTime.now();
     return currentDateTime.format(formatter);
   }
 
+  /**
+   * returns the call location which shows in which class and method the log was called
+   * @return String with a call location
+   */
   public String getCallLocation() {
     StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
     StackTraceElement caller = stackTraceElements[3];
 
-    return caller.getClassName() + caller.getMethodName();
+    return caller.getClassName() + "." + caller.getMethodName();
   }
 
-
+  /**
+   * returns the complete Log
+   * @return String which is the complete logger call
+   */
   public String getFinalLog() {
     return finalLog;
   }
 
+  /**
+   * returns true if the logger is a console logger
+   * @return boolean which shows whether the logger is a console logger or not
+   */
   public boolean isConsoleLogger() {
     return consoleLogger;
   }
 
+  /**
+   * returns true if the logger is a file logger
+   * @return boolean which shows whether the logger is a file logger or not
+   */
   public boolean isFileLogger() {
     return fileLogger;
   }
