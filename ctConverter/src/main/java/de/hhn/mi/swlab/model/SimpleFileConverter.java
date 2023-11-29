@@ -30,7 +30,8 @@ public class SimpleFileConverter implements FileConverter {
                                    String filePathNewCtFile) throws IOException {
     String patientData = reader.readTxtFile(filePathTxt);
     short[] imageData = reader.readBinFile(filePathBin);
-    writer.writeCtFile(filePathNewCtFile, patientData, imageData);
+    int[]parameters = reader.getImageParameters(filePathTxt);
+    writer.writeCtFile(filePathNewCtFile,patientData,imageData,parameters);
 
   }
 

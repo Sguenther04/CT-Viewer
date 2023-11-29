@@ -27,6 +27,6 @@ public interface DataWriter {
    * @param imageData that is written in the ct file
    * @throws IOException exception
    */
-  void writeCtFile(String filepath,String patientData,short[] imageData) throws IOException;
+  void writeCtFile(String filepath,String patientData,short[] imageData,int[] imageParameters) throws IOException;
 
 }

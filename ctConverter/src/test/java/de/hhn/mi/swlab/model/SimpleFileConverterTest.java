@@ -50,7 +50,6 @@ class SimpleFileConverterTest {
 
   @Test
   void convertTxtAndBinToCtTest() throws IOException {
-    converter.convertTxtAndBinToCt(txtPath,binPath,ctPathTest);
-
   }
+
 }

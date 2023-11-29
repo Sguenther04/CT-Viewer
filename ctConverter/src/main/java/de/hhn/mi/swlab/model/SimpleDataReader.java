@@ -1,5 +1,6 @@
 package de.hhn.mi.swlab.model;
 
+import de.hhn.mi.swlab.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SimpleDataReader implements DataReader{
+
   private String txtFileContent;
   private String txtFileContentCt;
   private int[] imageParameters;
@@ -62,7 +64,7 @@ public class SimpleDataReader implements DataReader{
         line = reader.readLine();
         content.append(line).append("\n");
         if(line.trim().equalsIgnoreCase("DATA")) {
-
+          loop = false;
         }
       }
       txtFileContentCt = content.toString();
@@ -78,20 +80,22 @@ public class SimpleDataReader implements DataReader{
     File file = new File(filepath);
     StringBuilder content = new StringBuilder();
     ctData = new ArrayList<>();
-    int counter = 0;
+    boolean loop = true;
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       String line;
-      while (counter < 10) {
+      while (loop) {
         line = reader.readLine();
-        counter++;
+        if(line.trim().equalsIgnoreCase("DATA")) {
+          loop = false;
+        }
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
-    if (counter == 10) {
+    if (!loop) {
       try {
         Scanner scanner = new Scanner(new File(filepath));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
           scanner.nextLine();
         }
         int i = 0;

@@ -33,29 +33,30 @@ public class SimpleDataWriter implements DataWriter {
   }
 
   @Override
-  public void writeCtFile(String filepath, String patientData, short[] imageData)
+  public void writeCtFile(String filepath, String patientData, short[] imageData,int[] imageParameters)
       throws IOException {
-
-
-
-
-    int numbersPerLine = 256;
+    int[]parameters = imageParameters;
+    int numbersPerLine = parameters[0];
+    int numbersPerColumn = parameters[1];
     int counter = 0;
     try (PrintWriter writer = new PrintWriter(new FileWriter(filepath))) {
-      writer.print(patientData);
+      writer.print(filepath);
       for (int i = 0; i < imageData.length; i++) {
-        writer.print(imageData[i]);
-        if (i % numbersPerLine == numbersPerLine - 1 || i == imageData.length - 1) {
+        if(counter % numbersPerColumn == 0 && counter != 0){
           writer.println();
-
-        } else {
+          counter = 0;
+        }
+        writer.print(imageData[i]);
+        if (i % numbersPerLine == numbersPerLine - 1 && i != 0 || i == imageData.length - 1) {
+          writer.print(" ");
+          writer.println();
+          counter++;
+        }  else {
           writer.print(" ");
         }
 
-
       }
-
-
+      writer.println();
     }
 
   }

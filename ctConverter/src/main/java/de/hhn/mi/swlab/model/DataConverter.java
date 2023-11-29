@@ -38,7 +38,10 @@ public class DataConverter {
   }
 
   public static void main(String[] args) throws IOException {
-    getImageParameters("C:\\Users\\samue\\group06_alt\\ctConverter\\src\\main\\resources\\dataViewer1.ct");
+    writeCtFile("C:\\Users\\samue\\group06_alt\\ctConverter\\src\\main\\resources\\CtFileTest",
+        "C:\\Users\\samue\\group06_alt\\ctConverter\\src\\main\\resources\\dataViewer2.txt",
+        "C:\\Users\\samue\\group06_alt\\ctConverter\\src\\main\\resources\\dataViewer2.bin");
+
      }
 
   public static void readBinFile(String filePath) throws FileNotFoundException {
@@ -120,17 +123,29 @@ public class DataConverter {
       throws IOException {
     readTxtFile(filePathTxt);
     readBinFile(filePathBin);
-    int numbersPerLine = 256;
+    int[] parameters = getImageParameters(filePathTxt);
+    int numbersPerLine = parameters[0];
+    int numbersPerColumn = parameters[1];
+    int counter = 0;
     try (PrintWriter writer = new PrintWriter(new FileWriter(fileNameToCreate))) {
       writer.print(txtFileContent);
       for (int i = 0; i < data.length; i++) {
-        writer.print(data[i]);
-        if (i % numbersPerLine == numbersPerLine - 1 || i == data.length - 1) {
+
+        if(counter % numbersPerColumn == 0 && counter != 0){
           writer.println();
-        } else {
+          counter = 0;
+        }
+        writer.print(data[i]);
+        if (i % numbersPerLine == numbersPerLine - 1 && i != 0 || i == data.length - 1) {
+          writer.print(" ");
+          writer.println();
+          counter++;
+        }  else {
           writer.print(" ");
         }
+
       }
+      writer.println();
 
 
     }
