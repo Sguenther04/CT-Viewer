@@ -18,6 +18,14 @@ public class SimpleDataReader implements DataReader{
   private int[] imageParameters;
   private short[] imageData;
   private ArrayList<Integer> ctData;
+
+  /**
+   * Read the content from the text file
+   *
+   * @param filepath the path to the text file
+   * @return the content of the text file as a string
+   * @throws FileNotFoundException if the file is not found
+   */
   @Override
   public String readTxtFile(String filepath) throws FileNotFoundException {
     File file = new File(filepath);
@@ -35,6 +43,13 @@ public class SimpleDataReader implements DataReader{
     return txtFileContent;
   }
 
+  /**
+   * Reads content from the binary file and returns it in an shorts Array
+   *
+   * @param filepath the path to the binary file
+   * @return an Array of shorts with the data from the binary file
+   * @throws FileNotFoundException if the file is not found
+   */
   @Override
   public short[] readBinFile(String filepath) throws FileNotFoundException {
     try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(filepath))) {
@@ -52,6 +67,13 @@ public class SimpleDataReader implements DataReader{
     return imageData;
   }
 
+  /**
+   * Reads the text file content until the word 'DATA' and returns it as a string
+   *
+   * @param filepath the path to the text file
+   * @return the content of the text file until the word 'DATA' as a string
+   * @throws FileNotFoundException if the file is not found
+   */
   @Override
   public String readTxtFileContentFromCtFile(String filepath) throws FileNotFoundException {
     File file = new File(filepath);
@@ -75,6 +97,13 @@ public class SimpleDataReader implements DataReader{
 
   }
 
+  /**
+   * Reads binary file content from the text file, starting from the word 'DATA' and return it as an integer ArrayList
+   *
+   * @param filepath the path to the binary file
+   * @return an integer ArrayList with the binary content from the ct File
+   * @throws FileNotFoundException if the file is not found
+   */
   @Override
   public ArrayList<Integer> readBinFileContentFromCtFile(String filepath) throws FileNotFoundException {
     File file = new File(filepath);
@@ -111,6 +140,12 @@ public class SimpleDataReader implements DataReader{
     return ctData;
   }
 
+  /**
+   * Reads image parameters from the text file
+   *
+   * @param filepath the path to the text file
+   * @return an Array with the image parameters
+   */
   public int[] getImageParameters(String filepath) {
     try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
       imageParameters = new int[3];

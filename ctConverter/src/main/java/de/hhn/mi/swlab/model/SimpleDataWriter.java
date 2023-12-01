@@ -9,6 +9,13 @@ import java.util.ArrayList;
 
 public class SimpleDataWriter implements DataWriter {
 
+  /**
+   * Write patient dara to a text file
+   *
+   * @param filePath the path to the text file
+   * @param patientData the data to be written into the text file
+   * @throws IOException if the file could not be written
+   */
   @Override
   public void writeTxtFile(String filePath, String patientData) throws IOException {
     try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
@@ -19,6 +26,13 @@ public class SimpleDataWriter implements DataWriter {
 
   }
 
+  /**
+   * Writes image data to a binary file
+   *
+   * @param filePath the path to the binary file
+   * @param imageData the data be written binary file
+   * @throws IOException if the file could not be written
+   */
   @Override
   public void writeBinFile(String filePath, ArrayList<Integer> imageData) throws IOException {
     try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream
@@ -32,6 +46,15 @@ public class SimpleDataWriter implements DataWriter {
 
   }
 
+  /**
+   * Writes patient and image data to a text file
+   *
+   * @param filepath the path to the ct file
+   * @param patientData the patient data to be written into the ct file
+   * @param imageData the image data to be written to the text file
+   * @param imageParameters an Array with image parameters
+   * @throws IOException if the file could not be written
+   */
   @Override
   public void writeCtFile(String filepath, String patientData, short[] imageData,int[] imageParameters)
       throws IOException {
