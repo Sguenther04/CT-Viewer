@@ -2,11 +2,9 @@ package de.hhn.mi.swlab.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +25,10 @@ class SimpleFileConverterTest {
     converter = new SimpleFileConverter();
     reader = converter.getReader();
     writer = converter.getWriter();
+
+
+
+
     ctPath = "C:\\Users\\samue\\group06_alt\\ctConverter\\src\\main\\resources\\dataViewer1.ct";
     txtPath = "C:\\Users\\samue\\group06_alt\\ctConverter\\src\\main\\resources\\dataViewer2.txt";
     binPath = "C:\\Users\\samue\\group06_alt\\ctConverter\\src\\main\\resources\\dataViewer2.bin";
@@ -50,6 +52,16 @@ class SimpleFileConverterTest {
 
   @Test
   void convertTxtAndBinToCtTest() throws IOException {
+    BufferedReader readerOriginal = new BufferedReader(new FileReader(ctPath));
+    BufferedReader readerCopy = new BufferedReader(new FileReader(ctPathTest));
+    String lineOriginal;
+    String lineCopied;
+
+    while((lineOriginal = readerOriginal.readLine()) != null ) {
+      lineCopied = readerCopy.readLine();
+      assertEquals(lineOriginal,lineCopied);
+    }
+
   }
 
 }

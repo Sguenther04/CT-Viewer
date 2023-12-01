@@ -9,32 +9,39 @@ public interface DataReader {
    *
    * @param filepath to the file that should be read
    * @return txtFileContent contents read from the file
-   * @throws FileNotFoundException exception
    */
-  String readTxtFile(String filepath) throws FileNotFoundException;
+  String readTxtFile(String filepath);
 
   /**
    * Reads the contents of a given binary file
+   *
    * @param filepath to the file that should be read
    * @return data a short array with shorts read from the binary file
-   * @throws FileNotFoundException exception
    */
-  short[] readBinFile(String filepath) throws  FileNotFoundException;
+  short[] readBinFile(String filepath);
 
   /**
    * Reads the text file contents of a given ct file
+   *
    * @param filepath to the file that should be read
    * @return txtFileContentCt that is read from the ct file
-   * @throws FileNotFoundException exception
    */
-  String readTxtFileContentFromCtFile(String filepath) throws FileNotFoundException;
+  String readTxtFileContentFromCtFile(String filepath);
 
   /**
    * Reads the imageData of a given ct file and stores them as shorts to write them in a binary file
    *
    * @param filepath to the file that should be read
    * @return imageData that is read from the ct file and stored in a short array
-   * @throws FileNotFoundException exception
    */
-ArrayList<Integer> readBinFileContentFromCtFile(String filepath) throws FileNotFoundException;
+  ArrayList<Integer> readBinFileContentFromCtFile(String filepath);
+
+  /**
+   * Extracts the image Parameters to use to write a ct File
+   *
+   * @param filepath to the file to extract the parameters from
+   * @return imageParameters that indicate the x,y and z dimensions of a ct file
+   */
+  int[] getImageParameters(String filepath);
+
 }

@@ -1,5 +1,8 @@
 package de.hhn.mi.swlab.model;
 
+import de.hhn.mi.swlab.ConsoleLogger;
+import de.hhn.mi.swlab.LoggerCalls;
+import de.hhn.mi.swlab.LoggerFactory;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -8,21 +11,22 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class SimpleDataWriter implements DataWriter {
+  private ConsoleLogger logger = (ConsoleLogger) LoggerFactory.createLogger("console");
 
   /**
    * Write patient dara to a text file
    *
    * @param filePath the path to the text file
    * @param patientData the data to be written into the text file
-   * @throws IOException if the file could not be written
    */
   @Override
-  public void writeTxtFile(String filePath, String patientData) throws IOException {
+  public void writeTxtFile(String filePath, String patientData) {
     try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
       writer.print(patientData);
     } catch (IOException e) {
-      throw new IOException("file could not be written");
+      e.printStackTrace();
     }
+    logger.loggerCall("Text file was written", LoggerCalls.INFO);
 
   }
 
@@ -31,18 +35,18 @@ public class SimpleDataWriter implements DataWriter {
    *
    * @param filePath the path to the binary file
    * @param imageData the data be written binary file
-   * @throws IOException if the file could not be written
    */
   @Override
-  public void writeBinFile(String filePath, ArrayList<Integer> imageData) throws IOException {
+  public void writeBinFile(String filePath, ArrayList<Integer> imageData)  {
     try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream
-        (filePath + ".bin"))) {
+        (filePath))) {
       for (int numbers : imageData) {
         dataOutputStream.writeShort(numbers);
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
+    logger.loggerCall("Binary file was written", LoggerCalls.INFO);
 
   }
 
@@ -53,11 +57,10 @@ public class SimpleDataWriter implements DataWriter {
    * @param patientData the patient data to be written into the ct file
    * @param imageData the image data to be written to the text file
    * @param imageParameters an Array with image parameters
-   * @throws IOException if the file could not be written
    */
   @Override
   public void writeCtFile(String filepath, String patientData, short[] imageData,int[] imageParameters)
-      throws IOException {
+      {
     int[]parameters = imageParameters;
     int numbersPerLine = parameters[0];
     int numbersPerColumn = parameters[1];
@@ -81,6 +84,10 @@ public class SimpleDataWriter implements DataWriter {
       }
       writer.println();
     }
+    catch (IOException e){
+      e.printStackTrace();
+    }
+    logger.loggerCall("Ct file was written", LoggerCalls.INFO);
 
   }
 }
