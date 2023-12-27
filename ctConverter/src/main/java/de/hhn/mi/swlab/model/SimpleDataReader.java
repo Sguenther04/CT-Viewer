@@ -77,12 +77,11 @@ public class SimpleDataReader implements DataReader {
    */
   @Override
   public String readTxtFileContentFromCtFile(String filepath) {
-    File file = new File(filepath);
     StringBuilder content = new StringBuilder();
     ctData = new ArrayList<>();
     int[] parameterTxt;
     boolean loop = true;
-    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
       String line;
       while (loop) {
         line = reader.readLine();
@@ -113,37 +112,29 @@ public class SimpleDataReader implements DataReader {
   @Override
   public ArrayList<Integer> readBinFileContentFromCtFile(String filepath) {
     File file = new File(filepath);
-    StringBuilder content = new StringBuilder();
     ctData = new ArrayList<>();
     boolean loop = true;
-    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-      String line;
+    try {
+      Scanner scanner = new Scanner(new File(filepath));
       while (loop) {
-        line = reader.readLine();
-        if (line.trim().equalsIgnoreCase("DATA")) {
-          loop = false;
-        }
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    if (!loop) {
-      try {
-        Scanner scanner = new Scanner(new File(filepath));
-        for (int i = 0; i < 3; i++) {
-          scanner.nextLine();
-        }
-        int i = 0;
-        while (scanner.hasNextInt()) {
-          ctData.add(i, scanner.nextInt());
-          i++;
-        }
+        String line = scanner.nextLine();
+        if (line.trim().equalsIgnoreCase("data")) {
+          while(scanner.hasNextInt()){
+            int num = scanner.nextInt();
+            ctData.add(num);
+            loop = scanner.hasNextInt();
+          }
 
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
+        }
       }
+
+
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
     }
-    logger.loggerCall("Binary file contents were extracted from ct file", LoggerCalls.INFO);
+    for (int i = 0; i < 3; i++) {
+      ctData.remove(0);
+    }
     return ctData;
   }
 

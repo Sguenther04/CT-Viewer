@@ -12,7 +12,7 @@ public interface Logger {
    * @param callType type of the log
    * @throws IOException exception
    */
-  void loggerCall(String report, LoggerCalls callType) throws IOException;
+  void loggerCall(String report,String logLocation, LoggerCalls callType) throws IOException;
 
   /**
    *returns the time of the moment the method was called

@@ -23,12 +23,13 @@ public class FileLogger implements Logger{
    * @param callType type of the log
    */
   @Override
-  public void loggerCall(String report, LoggerCalls callType) throws IOException {
+  public void loggerCall(String report,String logLocation, LoggerCalls callType) throws IOException {
     String callLocation = getCallLocation();
     String time = getDateTime();
     finalLog = time + " " + callType + ": " +callLocation + ": " + report;
-    writeLog(finalLog);
+    writeLog(finalLog,logLocation);
   }
+
   /**
    * Returns current date and time for the log
    * @return String with current date and time
@@ -77,9 +78,9 @@ public class FileLogger implements Logger{
    * @param log the string that has to be written in the file
    * @throws IOException if a print writer cannot be used
    */
-  public void writeLog(String log) throws IOException {
+  public void writeLog(String log,String fileLocation) throws IOException {
 
-    try (PrintWriter writer = new PrintWriter(new FileWriter("testorder.bin"))) {
+    try (PrintWriter writer = new PrintWriter(new FileWriter(fileLocation))) {
       writer.println(log);
     } catch (IOException e) {
       throw new IOException("file could not be written");

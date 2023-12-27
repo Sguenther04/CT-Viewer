@@ -15,6 +15,6 @@ public interface Example {
    */
   static void exampleCall() throws IOException
   {
-    logger.loggerCall("Das ist ein Error",LoggerCalls.ERROR);
+    logger.loggerCall("Das ist ein Error","rdmLocation",LoggerCalls.ERROR);
   }
 }
