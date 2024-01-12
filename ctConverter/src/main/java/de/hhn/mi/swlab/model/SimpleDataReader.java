@@ -19,7 +19,9 @@ public class SimpleDataReader implements DataReader {
   private String txtFileContentCt;
   private int[] imageParameters;
   private short[] imageData;
-  private ArrayList<Integer> ctData;
+  private ArrayList<Short> ctData;
+  private short[][][] ct3Dimensional;
+  private String[] patientInfo;
 
   /**
    * Read the content from the text file
@@ -110,7 +112,7 @@ public class SimpleDataReader implements DataReader {
    * @return an integer ArrayList with the binary content from the ct File
    */
   @Override
-  public ArrayList<Integer> readBinFileContentFromCtFile(String filepath) {
+  public ArrayList<Short> readBinFileContentFromCtFile(String filepath) {
     File file = new File(filepath);
     ctData = new ArrayList<>();
     boolean loop = true;
@@ -119,10 +121,10 @@ public class SimpleDataReader implements DataReader {
       while (loop) {
         String line = scanner.nextLine();
         if (line.trim().equalsIgnoreCase("data")) {
-          while(scanner.hasNextInt()){
-            int num = scanner.nextInt();
+          while (scanner.hasNextInt()) {
+            short num = scanner.nextShort();
             ctData.add(num);
-            loop = scanner.hasNextInt();
+            loop = scanner.hasNextShort();
           }
 
         }
@@ -152,14 +154,11 @@ public class SimpleDataReader implements DataReader {
       boolean loop = true;
       while (loop) {
         line = reader.readLine();
-        System.out.println(line);
         if (line.trim().equalsIgnoreCase("DATA")) {
           String line2;
           for (int i = 0; i < 3; i++) {
             line2 = reader.readLine();
-            System.out.println(line2);
             int parameter = Integer.parseInt(line2);
-            System.out.println(parameter);
             imageParameters[i] = parameter;
           }
           loop = false;
@@ -175,4 +174,60 @@ public class SimpleDataReader implements DataReader {
     logger.loggerCall("Image parameters were extracted from Text file", LoggerCalls.INFO);
     return imageParameters;
   }
+
+  @Override
+  public String[] getPatientInfoFromCt(String filepath) {
+    patientInfo = new String[6];
+    try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
+      String line;
+      boolean loop = true;
+      int j = 0;
+      while (loop) {
+        line = reader.readLine();
+        if (line.trim().equalsIgnoreCase("Data")) {
+          loop = false;
+        }
+        if(j < 6){
+          patientInfo[j] = line;
+          j++;
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+
+    return patientInfo;
+  }
+
+
+  /**
+   * Reads image parameters from a text file and organizes binary file content
+   * into a three-dimensional short array.
+   *
+   * @param filepath the path to the text file containing image parameters
+   */
+  public short[][][] generate3DimensionalCtData(String filepath) {
+    ctData = readBinFileContentFromCtFile(filepath);
+    int[] imageParameters = getImageParameters(filepath);
+
+    int width = imageParameters[0];
+    int height = imageParameters[1];
+    int depth = imageParameters[2];
+
+    ct3Dimensional = new short[depth][height][width];
+
+    int index = 0;
+    for (int d = 0; d < depth; d++) {
+      for (int h = 0; h < height; h++) {
+        for (int w = 0; w < width; w++) {
+          int num = ctData.get(index);
+          ct3Dimensional[d][h][w] = ctData.get(index);
+          index++;
+        }
+      }
+    }
+    return ct3Dimensional;
+  }
+
 }

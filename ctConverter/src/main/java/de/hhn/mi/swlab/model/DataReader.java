@@ -34,7 +34,7 @@ public interface DataReader {
    * @param filepath to the file that should be read
    * @return imageData that is read from the ct file and stored in a short array
    */
-  ArrayList<Integer> readBinFileContentFromCtFile(String filepath);
+  ArrayList<Short> readBinFileContentFromCtFile(String filepath);
 
   /**
    * Extracts the image Parameters to use to write a ct File
@@ -43,5 +43,7 @@ public interface DataReader {
    * @return imageParameters that indicate the x,y and z dimensions of a ct file
    */
   int[] getImageParameters(String filepath);
+
+  String[] getPatientInfoFromCt(String filepath);
 
 }

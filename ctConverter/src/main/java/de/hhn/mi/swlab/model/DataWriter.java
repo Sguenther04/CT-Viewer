@@ -18,7 +18,7 @@ public interface DataWriter {
    * @param filePath  where the file should be saved
    * @param imageData that is written in the binary file
    */
-  void writeBinFile(String filePath, ArrayList<Integer> imageData);
+  void writeBinFile(String filePath, ArrayList<Short> imageData);
 
   /**
    * Writes data that was read and saved before into a ct file

@@ -11,6 +11,7 @@
     <modules>
         <module>ctConverter</module>
         <module>ctLogger</module>
+        <module>CtViewer</module>
     </modules>
 
     <properties>

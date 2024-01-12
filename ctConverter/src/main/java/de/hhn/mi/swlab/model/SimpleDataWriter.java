@@ -37,10 +37,10 @@ public class SimpleDataWriter implements DataWriter {
    * @param imageData the data be written binary file
    */
   @Override
-  public void writeBinFile(String filePath, ArrayList<Integer> imageData) {
+  public void writeBinFile(String filePath, ArrayList<Short> imageData) {
     try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream
         (filePath))) {
-      for (int numbers : imageData) {
+      for (short numbers : imageData) {
         dataOutputStream.writeShort(numbers);
       }
     } catch (IOException e) {
@@ -87,6 +87,6 @@ public class SimpleDataWriter implements DataWriter {
       e.printStackTrace();
     }
     logger.loggerCall("Ct file was written", LoggerCalls.INFO);
-
   }
+
 }

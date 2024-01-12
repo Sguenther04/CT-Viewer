@@ -32,7 +32,7 @@ public class SimpleFileConverter implements FileConverter {
   public void convertCtToTxtAndBin(String filePathCt, String filePathNewTxtFile,
                                    String filePathNewBinFile) {
     String textFileContent = reader.readTxtFileContentFromCtFile(filePathCt);
-    ArrayList<Integer> binFileContent = reader.readBinFileContentFromCtFile(filePathCt);
+    ArrayList<Short> binFileContent = reader.readBinFileContentFromCtFile(filePathCt);
     writer.writeTxtFile(filePathNewTxtFile, textFileContent);
     writer.writeBinFile(filePathNewBinFile, binFileContent);
     logger.loggerCall("Ct file was converted to a text and binary file", LoggerCalls.INFO);
@@ -74,4 +74,5 @@ public class SimpleFileConverter implements FileConverter {
   public SimpleDataWriter getWriter() {
     return writer;
   }
+
 }

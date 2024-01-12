@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,7 @@ class SimpleFileConverterTest {
   private String ctPathTest;
   private String txtPathTest;
   private String binPathTest;
+  private String testPath;
 
   @BeforeEach
   void setUp() {
@@ -45,6 +47,9 @@ class SimpleFileConverterTest {
     filePath = Paths.get("src", "test", "resources", "BinFileTest.bin");
     absPath = filePath.toAbsolutePath();
     binPathTest = absPath.toString();
+    filePath = Paths.get("src", "test", "resources", "test3D");
+    absPath = filePath.toAbsolutePath();
+    testPath = absPath.toString();
     System.out.println(ctPath);
     System.out.println(txtPathTest);
     System.out.println(binPathTest);
