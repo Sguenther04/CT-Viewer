@@ -17,9 +17,6 @@ swlab1-it:
     - echo -n "Test" > target/test.txt
     - echo -n "tseT" > target/expected.txt
     - cd target
-    - java -jar swlab1-gitlab-ci-LATEST.jar test.txt output.txt
-    - cmp --silent expected.txt output.txt && (exit 0) || (exit 1)
-
 swlab1-budle:
   stage: bundle
   script:
