@@ -1,0 +1,30 @@
+image: registry.it.hs-heilbronn.de/it/development/git-runners/itadmin-openjdk21_repo-hhnit:latest
+
+stages:
+  - tests
+  - integration-test
+  - bundle
+
+swlab1-junit:
+  stage: tests
+  script:
+    - mvn test
+
+swlab1-it:
+  stage: integration-test
+  script:
+    - mvn -Dskip.tests=true package
+    - echo -n "Test" > target/test.txt
+    - echo -n "tseT" > target/expected.txt
+    - cd target
+    - java -jar swlab1-gitlab-ci-LATEST.jar test.txt output.txt
+    - cmp --silent expected.txt output.txt && (exit 0) || (exit 1)
+
+swlab1-budle:
+  stage: bundle
+  script:
+    - mvn -Dskip.tests=true package
+  artifacts:
+    paths:
+    - target/group6PipelineLATEST.jar
+    expire_in: 5 minutes

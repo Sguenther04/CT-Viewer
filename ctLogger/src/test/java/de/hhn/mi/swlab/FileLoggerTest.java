@@ -29,7 +29,7 @@ class FileLoggerTest {
   @Test
   void testGetFinalLog() {
     String expectedLog = loggerConsole.getDateTime() + " ERROR: de.hhn.mi.swlab.FileLoggerTest.testGetFinalLog: test";
-    loggerConsole.loggerCall("test","",LoggerCalls.ERROR);
+    loggerConsole.loggerCall("test",LoggerCalls.ERROR);
     String actualLog =  loggerConsole.getFinalLog();
     assertEquals(expectedLog,actualLog);
 
@@ -48,15 +48,12 @@ class FileLoggerTest {
   @Test
   void testWriteLog() throws IOException {
     String testLog = "";
-    Path filePath = Paths.get("src", "test", "resources", "TestLog");
-    Path absPath = filePath.toAbsolutePath();
-    String logPath = absPath.toString();
-    loggerFile.writeLog("test", logPath);
-    try (BufferedReader reader = new BufferedReader(new FileReader(logPath))) {
+    loggerFile.writeLog("test");
+    try (BufferedReader reader = new BufferedReader(new FileReader("testlog.txt"))) {
       testLog = reader.readLine();
     } catch (IOException e) {
       e.printStackTrace();
     }
-    assertEquals(testLog, "test");
+    assertEquals("test",testLog);
   }
 }

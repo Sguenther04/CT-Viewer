@@ -21,7 +21,7 @@ public class ConsoleLogger implements Logger {
    * @param report   is the message which the logger prints out
    * @param callType type of the log
    */
-  public void loggerCall(String report,String logLocation, LoggerCalls callType) {
+  public void loggerCall(String report, LoggerCalls callType) {
 
     String callLocation = getCallLocation();
     String time = getDateTime();
