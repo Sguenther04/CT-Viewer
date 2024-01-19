@@ -23,6 +23,7 @@ public class sagittalView extends JFrame {
     this.manager = manager;
     setLayout(new BorderLayout());
     bar = new JMenuBar();
+
     viewType = new JMenu("sagittal view");
     bar.add(viewType);
     setJMenuBar(bar);

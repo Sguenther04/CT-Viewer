@@ -6,8 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
@@ -25,18 +30,48 @@ public class StartScreenController implements ChangeListener {
   private int[] ctParameters;
   private JLabel sliderLabel;
   private String[] patientInfo;
+  private JButton loadButton;
+  private JButton sagittalButton;
+  private JButton frontalButton;
+  private JButton dataChangeButton;
+  private JMenu language;
   private ctTransversalPanel ctPanel;
+  private Locale locale;
+  private JLabel nameLabel;
+  private JLabel heightLabel;
+  private JLabel weightLabel;
+  private JLabel izLabel;
+  private JLabel birthLabel;
+  private JMenuItem german;
+  private JMenuItem english;
+
   public static boolean loaded = false;
 
 
   public StartScreenController(StartScreen screen, ctManager manager) {
     this.manager = manager;
     this.screen = screen;
-    screen.getSagittalButton().addActionListener(e -> showSagittal());
-    screen.getFrontalButton().addActionListener(e -> showFrontal());
-    screen.getLoadButton().addActionListener(e -> loadCtImage());
-    screen.getDataChangeButton().addActionListener(e -> changeData());
+    sagittalButton = screen.getSagittalButton();
+    sagittalButton.addActionListener(e -> showSagittal());
+    frontalButton = screen.getFrontalButton();
+    frontalButton.addActionListener(e -> showFrontal());
+    loadButton = screen.getLoadButton();
+    loadButton.addActionListener(e -> loadCtImage());
+    dataChangeButton = screen.getDataChangeButton();
+    dataChangeButton.addActionListener(e -> changeData());
     screen.getSlider().addChangeListener(this);
+    izLabel = screen.getIzLabel();
+    birthLabel = screen.getBirthLabel();
+    nameLabel = screen.getNameLabel();
+    weightLabel = screen.getWeightLabel();
+    heightLabel = screen.getHeightLabel();
+    language = screen.getLanguage();
+    english = screen.getEnglish();
+    english.addActionListener( e -> languageChanged(1));
+    german = screen.getGerman();
+    german.addActionListener( e -> languageChanged(2));
+    locale = screen.getCurrentLocale();
+
     screenSlider = screen.getSlider();
   }
 
@@ -128,5 +163,42 @@ public class StartScreenController implements ChangeListener {
       }
     }
   }
+
+  public void languageChanged(int languageID) {
+    if(languageID == 1){
+      locale = new Locale("en");
+      ResourceBundle bundle = ResourceBundle.getBundle("Ct-Ressourcebundle", locale);
+      changeLanguage(bundle);
+    } else if (languageID == 2) {
+      locale = new Locale("de");
+      ResourceBundle bundle = ResourceBundle.getBundle("Ct-Ressourcebundle", locale);
+      changeLanguage(bundle);
+
+    }
+
+  }
+  public void changeLanguage(ResourceBundle bundle){
+    language.setText(bundle.getString("language"));
+    english.setText(bundle.getString("english"));
+    german.setText(bundle.getString("german"));
+    sagittalButton.setText(bundle.getString("sagittal"));
+    frontalButton.setText(bundle.getString("frontal"));
+    loadButton.setText(bundle.getString("load"));
+    dataChangeButton.setText(bundle.getString("change"));
+
+
+
+    nameLabel.setText(bundle.getString("name"));
+    heightLabel.setText(bundle.getString("height"));
+    weightLabel.setText(bundle.getString("weight"));
+    izLabel.setText(bundle.getString("iz"));
+    birthLabel.setText(bundle.getString("birth"));
+    screen.repaint();
+    screen.getBar().repaint();
+    screen.getLanguage().repaint();
+    screen.getPatientPanel().repaint();
+  }
+
+
 }
 
