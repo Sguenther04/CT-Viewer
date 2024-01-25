@@ -123,6 +123,7 @@ public class StartScreen extends JFrame {
   }
 
   public void fillPatientPanel() {
+    patientPanel.removeAll();
     String[] patientData = manager.getPatientInfo();
     String[] name = patientData[0].split("\t");
     String[] birth = patientData[1].split("\t");

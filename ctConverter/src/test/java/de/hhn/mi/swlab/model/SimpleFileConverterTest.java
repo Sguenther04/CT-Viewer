@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -50,10 +51,6 @@ class SimpleFileConverterTest {
     filePath = Paths.get("src", "test", "resources", "test3D");
     absPath = filePath.toAbsolutePath();
     testPath = absPath.toString();
-    System.out.println(ctPath);
-    System.out.println(txtPathTest);
-    System.out.println(binPathTest);
-
   }
 
   @Test
@@ -79,7 +76,20 @@ class SimpleFileConverterTest {
       lineCopied = readerCopy.readLine();
       assertEquals(lineOriginal, lineCopied);
     }
+  }
+    @Test
+        void test(){
+      String line = reader.readTxtFileContentFromCtFile(ctPath);
+      System.out.println(line);
+      String lines[] = line.split("\n");
+      System.out.println(Arrays.toString(lines));
+
+
+
+
+
+
+    }
 
   }
 
-}

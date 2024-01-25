@@ -3,6 +3,7 @@ package de.hhn.mi.swlab.ctViewer;
 import de.hhn.mi.swlab.model.SimpleDataReader;
 import de.hhn.mi.swlab.model.SimpleDataWriter;
 import de.hhn.mi.swlab.model.SimpleFileConverter;
+import java.util.ArrayList;
 
 public class ctManager {
   private SimpleFileConverter converter;
@@ -12,7 +13,19 @@ public class ctManager {
   private short[][][] ctData;
   private String patientData;
   private String[] patientInfo;
+  private short[] imageDataShort;
 
+  public short[] getImageDataShort() {
+    return imageDataShort;
+  }
+  public short[]getImageDataShortFromFile(String filepath){
+    ArrayList<Short> imageArrayList =  reader.readBinFileContentFromCtFile(filepath);
+    imageDataShort = new short[imageArrayList.size()];
+    for (int i = 0; i < imageArrayList.size(); i++) {
+      imageDataShort[i] = imageArrayList.get(i);
+    }
+    return imageDataShort;
+  }
 
   public ctManager() {
     this.converter = new SimpleFileConverter();

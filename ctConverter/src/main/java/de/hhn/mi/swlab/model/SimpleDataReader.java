@@ -140,6 +140,7 @@ public class SimpleDataReader implements DataReader {
     return ctData;
   }
 
+
   /**
    * Reads image parameters from the text file
    *
@@ -221,13 +222,17 @@ public class SimpleDataReader implements DataReader {
     for (int d = 0; d < depth; d++) {
       for (int h = 0; h < height; h++) {
         for (int w = 0; w < width; w++) {
-          int num = ctData.get(index);
           ct3Dimensional[d][h][w] = ctData.get(index);
           index++;
         }
       }
     }
+
     return ct3Dimensional;
+  }
+
+  public short[]getImageData() {
+    return imageData;
   }
 
 }

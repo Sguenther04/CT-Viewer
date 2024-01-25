@@ -10,18 +10,11 @@ swlab1-junit:
   script:
     - mvn test
 
-swlab1-it:
-  stage: integration-test
-  script:
-    - mvn -Dskip.tests=true package
-    - echo -n "Test" > target/test.txt
-    - echo -n "tseT" > target/expected.txt
-    - cd target
 swlab1-budle:
   stage: bundle
   script:
     - mvn -Dskip.tests=true package
   artifacts:
     paths:
-    - target/group6PipelineLATEST.jar
+    - CtViewer/target/group6PipelineLATEST.jarT.jar
     expire_in: 5 minutes

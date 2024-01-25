@@ -66,7 +66,7 @@ public class SimpleDataWriter implements DataWriter {
     int numbersPerColumn = parameters[1];
     int counter = 0;
     try (PrintWriter writer = new PrintWriter(new FileWriter(filepath))) {
-      writer.print(filepath);
+      writer.print(patientData);
       for (int i = 0; i < imageData.length; i++) {
         if (counter % numbersPerColumn == 0 && counter != 0) {
           writer.println();

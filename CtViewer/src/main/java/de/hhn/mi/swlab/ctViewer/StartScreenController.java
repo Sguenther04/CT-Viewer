@@ -44,8 +44,7 @@ public class StartScreenController implements ChangeListener {
   private JLabel birthLabel;
   private JMenuItem german;
   private JMenuItem english;
-
-  public static boolean loaded = false;
+  private short[] imageDataShort;
 
 
   public StartScreenController(StartScreen screen, ctManager manager) {
@@ -67,9 +66,9 @@ public class StartScreenController implements ChangeListener {
     heightLabel = screen.getHeightLabel();
     language = screen.getLanguage();
     english = screen.getEnglish();
-    english.addActionListener( e -> languageChanged(1));
+    english.addActionListener(e -> languageChanged(1));
     german = screen.getGerman();
-    german.addActionListener( e -> languageChanged(2));
+    german.addActionListener(e -> languageChanged(2));
     locale = screen.getCurrentLocale();
 
     screenSlider = screen.getSlider();
@@ -93,8 +92,10 @@ public class StartScreenController implements ChangeListener {
 
     int response = fileChooser.showOpenDialog(screen);
     if (response == JFileChooser.APPROVE_OPTION) {
+
       selectedFilePath = fileChooser.getSelectedFile().getAbsolutePath();
       ctData = manager.getCtDataFromFile(selectedFilePath);
+      imageDataShort = manager.getImageDataShortFromFile(selectedFilePath);
       patientData = manager.getPatientDataFromFile(selectedFilePath);
       ctParameters = manager.getCtParametersFromFile(selectedFilePath);
       patientInfo = manager.getPatientInfoFromFile(selectedFilePath);
@@ -106,7 +107,6 @@ public class StartScreenController implements ChangeListener {
       screen.add(ctPanel, BorderLayout.CENTER);
       ctPanel.repaint();
       screen.repaint();
-      loaded = true;
       screenSlider.setValue(1);
       screenSlider.setValue(0);
     }
@@ -148,24 +148,24 @@ public class StartScreenController implements ChangeListener {
     if (response == JFileChooser.APPROVE_OPTION) {
       String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 
-      String name = screen.getNameField().getText();
-      String birth = screen.getBirthField().getText();
-      String weight = screen.getWeightField().getText();
-      String height = screen.getHeightField().getText();
-      String iz = screen.getBirthField().getText();
-      String infoToWrite = "Updated data from: " + selectedFilePath + "\n" +
-          name + "\n" + birth + "\n" + weight + "\n" + height + "\n" + iz;
+      String name = "name\t" + screen.getNameField().getText();
+      String birth ="birth\t" + screen.getBirthField().getText();
+      String weight = "weight\t" + screen.getWeightField().getText();
+      String height = "height\t" + screen.getHeightField().getText();
+      String iz = "iz\t" + screen.getBirthField().getText();
+      String infoToWrite =
+          name + "\n" + birth + "\n" + weight + "\n" + height + "\n" + iz + "\n" + patientInfo[5] +
+              "\n" + "DATA" + "\n" + ctParameters[0] + "\n" + ctParameters[1] + "\n" +
+              ctParameters[2] + "\n";
 
-      try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-        writer.write(infoToWrite);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+      System.out.println(imageDataShort[49]);
+      manager.getWriter().writeCtFile(filePath, infoToWrite, imageDataShort, ctParameters);
+
     }
   }
 
   public void languageChanged(int languageID) {
-    if(languageID == 1){
+    if (languageID == 1) {
       locale = new Locale("en");
       ResourceBundle bundle = ResourceBundle.getBundle("Ct-Ressourcebundle", locale);
       changeLanguage(bundle);
@@ -177,7 +177,8 @@ public class StartScreenController implements ChangeListener {
     }
 
   }
-  public void changeLanguage(ResourceBundle bundle){
+
+  public void changeLanguage(ResourceBundle bundle) {
     language.setText(bundle.getString("language"));
     english.setText(bundle.getString("english"));
     german.setText(bundle.getString("german"));
@@ -185,7 +186,6 @@ public class StartScreenController implements ChangeListener {
     frontalButton.setText(bundle.getString("frontal"));
     loadButton.setText(bundle.getString("load"));
     dataChangeButton.setText(bundle.getString("change"));
-
 
 
     nameLabel.setText(bundle.getString("name"));

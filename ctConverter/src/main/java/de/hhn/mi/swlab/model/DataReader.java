@@ -46,4 +46,6 @@ public interface DataReader {
 
   String[] getPatientInfoFromCt(String filepath);
 
+  short[]getImageData();
+
 }
