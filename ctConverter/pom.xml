@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>de.hhn.mi.swlab</groupId>
-        <artifactId>group06_alt</artifactId>
+        <artifactId>CTScanner</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
